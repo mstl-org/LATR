@@ -129,9 +129,6 @@ transformer=dict(
                     num_levels=1,
                     num_points=8,
                     batch_first=False,
-                    num_query=num_query,
-                    num_anchor_per_query=num_pt_per_line,
-                    anchor_y_steps=anchor_y_steps,
                     dropout=0.1),
                 ],
             ffn_cfgs=dict(
