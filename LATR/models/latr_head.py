@@ -61,7 +61,7 @@ class LATRHead(nn.Module):
                  depth_num=50,
                  depth_start=3,
                  top_view_region=[[-10, 103], [10, 103], [-10, 3], [10, 3]],
-                 position_range=[-30, 3, -5, 30, 123, 5],
+                 position_range=[-30, -17, -5, 30, 123, 5],
                  xbound=[6.0, 78.0, 0.2],
                  ybound=[-36.0, 36.0, 0.2],
                  pred_dim=20,
