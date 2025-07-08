@@ -83,6 +83,7 @@ class MSDeformableAttention3D(BaseModule):
                 value=None,
                 identity=None,
                 query_pos=None,
+                key_pos=None,
                 key_padding_mask=None,
                 reference_points=None,
                 spatial_shapes=None,
@@ -94,6 +95,9 @@ class MSDeformableAttention3D(BaseModule):
             identity = query
         if query_pos is not None:
             query = query + query_pos
+
+        if key_pos is not None:
+            value = value + key_pos
 
         if not self.batch_first:
             query = query.permute(1, 0, 2)
@@ -109,12 +113,12 @@ class MSDeformableAttention3D(BaseModule):
         value = value.view(bs, num_value, self.num_heads, -1)
 
         sampling_offsets = self.sampling_offsets(query).view(
-            bs, num_query, self.num_heads, self.num_levels, self.num_points, 2)
+            bs, num_query, self.num_heads, self.num_levels, self.num_points, 2) #[1, 800, 4, 1, 8, 2]
         attention_weights = self.attention_weights(query).view(
             bs, num_query, self.num_heads, self.num_levels * self.num_points)
         attention_weights = attention_weights.softmax(-1)
         attention_weights = attention_weights.view(
-            bs, num_query, self.num_heads, self.num_levels, self.num_points)
+            bs, num_query, self.num_heads, self.num_levels, self.num_points) ##[1, 800, 4, 1, 8, 2]
 
         offset_normalizer = torch.stack(
             [spatial_shapes[..., 1], spatial_shapes[..., 0]], -1)  # [W, H]
