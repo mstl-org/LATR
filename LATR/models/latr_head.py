@@ -197,7 +197,7 @@ class LATRHead(nn.Module):
     def forward(self, input_dict, is_training=True):
         output_dict = {}
         # 获取 BEV 特征
-        bev_feats = input_dict['fusion_features']  # [2, 256, 180, 180],图像和点云bev特征融合，分辨率为0.4m×0.4m
+        bev_feats = input_dict['fusion_features']  # [2, 256, 180, 180],图像和点云bev特征融合在lidar坐标系，分辨率为0.4m×0.4m
         if not isinstance(bev_feats, (list, tuple)):
             bev_feats = [bev_feats]
 
